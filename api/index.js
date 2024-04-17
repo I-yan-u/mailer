@@ -11,6 +11,7 @@ app.use(cors());
 const port = process.env.PORT;
 
 app.get("/", (req, res) => res.send("Mailer app is running!"));
+app.get("/status", (req, res) => res.status(200).send({ status: "ok" }));
 
 app.listen(port, () => console.log(`Server ready on port ${port}.`));
 
