@@ -40,11 +40,12 @@ app.post("/send", async (req, res) => {
         return res.status(400).send({ message: "Missing required fields." });
     }
 
-    if (name) {
-        text = `New Message from ${name},\n\n${text}`;
-    } else {
+    if (!name) {
         text = text;
+    } else {
+        text = `New Message from ${name},\n\n${text}`;
     }
+
     try{
         const mailOptions = {
             from: user,
