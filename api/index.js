@@ -15,7 +15,7 @@ app.use(cors());
 const port = process.env.PORT;
 const user = process.env.USER;
 const pass = process.env.PASS;
-const to = process.env.RECEIVER;
+const to = process.env.RECEIVER || 'iyanuajimobi12@gmail.com';
 
 // Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -43,7 +43,7 @@ app.post("/send", async (req, res) => {
     try{
         const mailOptions = {
             from: user,
-            to: to,
+            to,
             cc: sender,
             subject: subject,
             text: text
