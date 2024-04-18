@@ -34,12 +34,17 @@ app.get("/status", (_, res) => res.status(200).send({ status: "ok", timestamp: n
 
 // App route to send an email
 app.post("/send", async (req, res) => {
-    const { sender, subject, text } = req.body;
+    const { sender, subject, text, name } = req.body;
 
     if (!sender || !subject || !text) {
         return res.status(400).send({ message: "Missing required fields." });
     }
 
+    if (name) {
+        text = `New Message from ${name},\n\n${text}`;
+    } else {
+        text = text;
+    }
     try{
         const mailOptions = {
             from: user,
