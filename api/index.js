@@ -90,14 +90,12 @@ app.post('/send', async (req, res) => {
       text: messageBody,
     };
     const info = await transporter.sendMail(mailOptions);
+    transporter.close();
     return res
       .status(200)
       .send({ message: 'Email sent.', messageId: info.messageId });
   } catch (error) {
     return res.status(500).send({ message: 'Internal server error.' });
-  } finally {
-    console.log('Email send attempt finished.');
-    transporter.close();
   }
 });
 
