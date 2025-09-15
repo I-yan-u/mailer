@@ -58,18 +58,20 @@ app.get('/status', (_, res) =>
 
 // App route to send an email
 app.post('/send', async (req, res) => {
-  let { sender, subject, text, name, to, config } = req.body;
+  let { sender, subject, messageBody, name, to, config } = req.body;
   const { user, pass, host, port, type } = config || {};
 
-  if (!sender || !subject || !text) {
+  if (!sender || !subject || !messageBody) {
     return res.status(400).send({ message: 'Missing required fields.' });
   }
 
   if (!name) {
-    text = text;
+    messageBody = messageBody;
   } else {
-    text = `New Message from ${name},\n\n${text}`;
+    messageBody = `New Message from ${name},\n\n${messageBody}`;
   }
+
+  console.log(req.body);
 
   try {
     const transporter = createTransporter({ user, pass, host, port, type });
@@ -85,7 +87,7 @@ app.post('/send', async (req, res) => {
       to,
       cc: sender,
       subject: subject,
-      text: text,
+      text: messageBody,
     };
     const info = await transporter.sendMail(mailOptions);
     return res
